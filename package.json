@@ -1,0 +1,55 @@
+{
+  "name": "circle-progressbar",
+  "version": "1.1.0",
+  "description": "A simple chart Library",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "rm -rf ./dist && webpack --mode development",
+    "start": "webpack-dev-server",
+    "lint": "npx eslint src/**/*.tsx",
+    "build": "rm -rf ./dist && webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvinhtml/circle-progressbar.git"
+  },
+  "keywords": [
+    "circle-progressbar",
+    "progress",
+    "bar",
+    "svg",
+    "circular",
+    "circle",
+    "radial",
+    "loading",
+    "semi-circle"
+  ],
+  "author": "alvinhtml@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alvinhtml/circle-progressbar/issues"
+  },
+  "homepage": "https://github.com/alvinhtml/circle-progressbar#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "autoprefixer": "^10.3.1",
+    "css-loader": "^6.2.0",
+    "dart-sass": "^1.25.0",
+    "eslint": "^7.32.0",
+    "file-loader": "^6.2.0",
+    "html-minifier": "^4.0.0",
+    "html-webpack-plugin": "^5.3.2",
+    "normalize-scss": "^7.0.1",
+    "postcss-loader": "^6.1.1",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.3.5",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.3.1"
+  }
+}
