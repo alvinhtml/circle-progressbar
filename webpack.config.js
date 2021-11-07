@@ -58,7 +58,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       chunks: ['index', 'example'],
-      filename: './example/example.html'
+      filename: './example/index.html'
     })
   ],
   devServer: {
@@ -68,7 +68,7 @@ module.exports = {
     },
     onBeforeSetupMiddleware: function(devServer) {
       devServer.app.get('/', function (req, res) {
-        res.redirect('example/example.html')
+        res.redirect('example/index.html')
       });
     },
     open: true,
