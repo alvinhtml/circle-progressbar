@@ -1,4 +1,4 @@
-// import Mind from '../index';
+import Mind from '../index';
 const CircleProgressbar = (window as any).CircleProgressbar.default
 
 /*
@@ -8,54 +8,63 @@ const CircleProgressbar = (window as any).CircleProgressbar.default
  */
 export {}
 
-const colors = ['#f2711c', '#2185d0', '#21ba45', '#b5cc18', '#00b5ad', '#fbbd08', '#6435c9', '#a333c8', '#e03997', '#a5673f']
 
 
-
-function createCircle(option: any) {
-  const box = document.createElement('div');
-  box.classList.add('circle')
-
-  const container = document.querySelector('#container')
-
-  if (container) {
-    container.appendChild(box)
-
-    const circle = CircleProgressbar.create(box, 60, 200, option)
-
-    window.setInterval(() => {
-      circle.update(Math.random() * 200)
-    }, 5000)
-  }
-}
-
-createCircle({
-  radius: '40%',
-  title: (v: number) => {
-    return v + '%'
-  },
-  subtitle: (v: number) => {
-
-  },
-  strokeWidth: 6,
-  stroke: '#5ea3f8',
-  semiCircle: 1
+CircleProgressbar(document.querySelector('#baseCircle1'), {
+  value: 80,
+  total: 200
+})
+CircleProgressbar(document.querySelector('#baseCircle2'), {
+  value: 130,
+  total: 200,
+  strokeWidth: 2,
+  strokeLinecap: 'round',
+  stroke: '#faad42'
+})
+CircleProgressbar(document.querySelector('#baseCircle3'), {
+  value: 160,
+  total: 200,
+  strokeWidth: 12,
+  strokeLinecap: 'round',
+  stroke: '#f82a5e'
 })
 
-createCircle({
-  radius: '40%',
-  title: (v: number) => {
-    return v + '%'
-  },
-  subtitle: (v: number) => {
-
-  },
-  strokeWidth: 6,
-  stroke: '#21ba45',
-  semiCircle: 1
+CircleProgressbar(document.querySelector('#titleCircle'), {
+  value: 8.5,
+  total: 16,
+  strokeLinecap: 'round',
+  title: (percentage: number, value: number) => `${value}GB`,
+  subtitle: 'memory usage'
 })
 
-const option = {
-  value: 200,
-  total: 400
-}
+
+//
+// createCircle({
+//   value: 200,
+//   total: 400,
+//   radius: '40%',
+//   title: (v: number) => {
+//     return v + '%'
+//   },
+//   subtitle: (v: number) => {
+//
+//   },
+//   strokeWidth: 6,
+//   stroke: '#5ea3f8',
+//   semiCircle: 1
+// })
+//
+// createCircle({
+//   value: 200,
+//   total: 400,
+//   radius: '40%',
+//   title: (v: number) => {
+//     return v + '%'
+//   },
+//   subtitle: (v: number) => {
+//
+//   },
+//   strokeWidth: 6,
+//   stroke: '#21ba45',
+//   semiCircle: 1
+// })

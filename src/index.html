@@ -7,43 +7,24 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <title>Circle Progress Bar</title>
+
+    <link rel="stylesheet" href="http://example.alvinhtml.com/style.css">
+    <script src="http://example.alvinhtml.com/highlight.min.js" charset="utf-8"></script>
+
     <style>
-      * {
-        margin: 0;
-        padding: 0;
+      main {
+        width: 770px;
+        margin: 0 auto;
       }
-
-      header {
-        padding: 1em 0;
-        text-align: right;
-        font-size: 12px;
-      }
-
-      iframe {
-        vertical-align: middle;
-      }
-
-      a {
-        font-family: Tahoma, Geneva, sans-serif;
-        display: inline-block;
-        margin-right: 8px;
-        color: #333;
-        text-decoration: none;
-        vertical-align: middle;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-      .container {
+      .circle-box {
         display: flex;
+        justify-content: space-around;
+        margin: 2em 0;
       }
-
       .circle {
         width: 120px;
         height: 120px;
       }
-
     </style>
 </head>
 
@@ -51,9 +32,45 @@
   <header>
     <iframe src="https://ghbtns.com/github-btn.html?user=alvinhtml&repo=circle-progressbar&type=watch&count=false" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
   </header>
-  <div class="container" id="container">
+  <main>
+    <div class="markdown-section">
+      <div class="circle-box">
+        <div class="circle" id="baseCircle1"></div>
+        <div class="circle" id="baseCircle2"></div>
+        <div class="circle" id="baseCircle3"></div>
+      </div>
+      <h3>Install</h3>
+<pre><code class="language-shell">npm install circle-progressbar --save</code></pre>
+      <h3>Usage</h3>
 
-  </div>
+<pre><code class="language-javascript">import CircleProgressbar from 'circle-progressbar'
+
+CircleProgressbar(document.querySelector('#baseCircle1'), {
+  value: 80,
+  total: 200
+})
+CircleProgressbar(document.querySelector('#baseCircle2'), {
+  value: 130,
+  total: 200,
+  strokeLinecap: 'round',
+  stroke: '#faad42'
+})
+CircleProgressbar(document.querySelector('#baseCircle3'), {
+  value: 160,
+  total: 200,
+  strokeLinecap: 'round',
+  stroke: '#f82a5e'
+})</code></pre>
+      <h3>Configure title and subtitle</h3>
+      <div class="circle-box">
+        <div class="circle" id="titleCircle"></div>
+      </div>
+      <pre><code class="language-javascript"></code></pre>
+    </div>
+    <script type="text/javascript">
+      hljs.highlightAll();
+    </script>
+  </main>
 </body>
 
 </html>

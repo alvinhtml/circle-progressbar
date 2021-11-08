@@ -3,4 +3,9 @@ svg {
     transform-origin: 50% 50%;
     transform: rotate(-90deg);
   }
+  .svg-text {
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font: bold 1em 'Roboto', sans-serif;
+  }
 }

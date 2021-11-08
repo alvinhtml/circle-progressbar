@@ -1,20 +1,25 @@
 import './scss/style.scss'
 
 interface Option {
+  value: number
+  total: number
   radius: string
   strokeWidth: number
   stroke: string
   backgroundStrokeWidth: number
   backgroundStroke: string
   semiCircle: number
-  strokeLinecap: string
+  strokeLinecap: string,
+  title: Function,
+  subtitle: Function
 }
 
-const red = '#f82a5eff'
-const green = '#05d69eff'
-const yellow = '#faad42ff'
-const blue = '#38c3ffff'
+const red = '#f82a5e'
+const green = '#05d69e'
+const yellow = '#faad42'
+const blue = '#38c3ff'
 const gray = '#f5f6fa'
+
 
 class Circle {
 
@@ -37,73 +42,68 @@ class Circle {
       total: 100,
       radius: '40%',
       strokeWidth: 6,
-      stroke: blue
-      backgroundStrokeWidth: 6
-      backgroundStroke: gray
+      stroke: blue,
+      backgroundStrokeWidth: option.backgroundStrokeWidth || option.strokeWidth || 6,
+      backgroundStroke: gray,
       semiCircle: 1,
-      strokeLinecap: 'round'
+      strokeLinecap: 'round',
+      title: (percentage: number, value: number) => percentage + '%',
+      subtitle: '',
     }, option)
 
     const {
-      value
-      total
-      radius
-      strokeWidth
-      stroke
-      backgroundStrokeWidth
-      backgroundStroke
-      semiCircle
-      strokeLinecap
+      value,
+      total,
+      radius,
+      strokeWidth,
+      stroke,
+      backgroundStrokeWidth,
+      backgroundStroke,
+      semiCircle,
+      strokeLinecap,
+      title
     } = this.option
 
     this.container = container
     this.value = value
     this.total = total
 
+    // 创建 SVG
     const svg = this.createSvg(container.clientWidth, container.clientHeight)
 
-    // 创建背影圆环
-    const circleBackground = this.createCircle(this.option.radius)
-    circleBackground.setAttribute('stroke'
-    this.option.backgroundStroke)
+    // 创建背景圆环
+    const circleBackground = this.createCircle(radius, (backgroundStrokeWidth).toString(), backgroundStroke)
     svg.appendChild(circleBackground)
 
-    // 创建圆环
-    const circle = this.createCircle(this.option.radius)
-    circle.classList.add('svg-circle-progress')
-    console.log(container.clientWidth, this.option.radius, Math.PI);
+    // 创建进度条圆环
+    const circle = this.createCircle(radius, (strokeWidth).toString(), stroke)
+    const circumference = this.getCircumference()
+    circle.setAttribute('stroke-dasharray', `${Math.floor(value / total * circumference)} ${circumference}`)
 
-    const perimeter = this.getPerimeter()
-    console.log("perimeter", perimeter)
-    console.log("this", this);
-    console.log(this.value, "this.val / this.total * perimeter", this.value / this.total * perimeter);
-    circle.setAttribute('stroke-dasharray', `${Math.floor(this.value / this.total * perimeter)} ${perimeter}`)
-    circle.setAttribute('stroke-linecap', this.option.strokeLinecap)
+    // 边框末端的形状
+    if (option.strokeLinecap) {
+      circle.setAttribute('stroke-linecap', strokeLinecap)
+    }
 
     this.circle = circle
     svg.appendChild(circle)
 
+    if (option.title !== null || option.title !== false) {
+      const titleText = typeof title === 'function' ? title(parseInt((value / total).toFixed(2)) * 100, value) : title
+
+      const text = this.createText(titleText)
+      svg.appendChild(text)
+    }
+
     container.appendChild(svg)
   }
 
-  getPerimeter() {
+  getCircumference() {
     const radius = parseInt(this.option.radius)
-    if (/%/.test(this.option.radius)) {
+    if (/%$/.test(this.option.radius)) {
       return (radius / 100 * 2 * this.container.clientWidth * Math.PI)
     } else {
       return radius * 2 * Math.PI
-    }
-  }
-
-  private setOption(option: Partial<Option>) {
-    this.option = {
-      radius: option.radius,
-      strokeWidth: option.strokeWidth || 6,
-      stroke: option.stroke || '#5ea3f8',
-      backgroundStrokeWidth: option.backgroundStrokeWidth || 6,
-      backgroundStroke: option.backgroundStroke || '#f5f6fa',
-      semiCircle:  option.semiCircle || 1,
-      strokeLinecap: 'round'
     }
   }
 
@@ -116,39 +116,46 @@ class Circle {
     return svg
   }
 
-  private createCircle(radius: string | number): SVGCircleElement {
+  private createCircle(radius: string, strokeWidth: string, stroke: string): SVGCircleElement {
     const circle = <SVGCircleElement>document.createElementNS(this.svgNS, 'circle')
-
-    circle.setAttribute('fill', 'none')
-    circle.setAttribute('stroke-width', this.option.strokeWidth.toString())
+    circle.classList.add('svg-circle-progress')
     circle.setAttribute('cx', '50%')
     circle.setAttribute('cy', '50%')
+    circle.setAttribute('fill', 'none')
     circle.setAttribute('r', radius + '')
-    circle.setAttribute('stroke', this.option.stroke)
+    circle.setAttribute('stroke', stroke)
+    circle.setAttribute('stroke-width', strokeWidth)
 
     return circle
   }
 
-  html() {
-    const html = `<svg width="80" height="78">
-      <circle cx="50%" cy="50%" r="28%" stroke="#5ea1f8" class="svg-circle-gray"></circle>
-      <circle cx="50%" cy="50%" r="28%" stroke="#5ea3f8" stroke-dasharray="0 137" class="svg-circle"></circle>
-      <circle cx="50%" cy="50%" r="38%" class="svg-circle-border"></circle>
-      <text x="50%" y="53%" class="svg-circle-text">0 %</text>
-    </svg>`
+  private createText(text: string): SVGTextElement {
+    const textElement = <SVGTextElement>document.createElementNS(this.svgNS, 'text')
+    textElement.setAttribute('x', '50%')
+    textElement.setAttribute('y', '50%')
+    textElement.setAttribute('class', 'svg-text')
+    textElement.textContent = text
+
+    return textElement
   }
+
 
   update(value: number) {
     this.value = value
   }
 
-  static create(container: HTMLElement, option: Partial<Option>) {
-    const circle = new CircleProgressbar(container, option)
-    console.log("circle", circle);
+  static create(container: HTMLElement, option: Partial<Option>): Circle {
+    const circle = new Circle(container, option)
     return circle
   }
 }
 
-export default function CircleProgressbar(container: HTMLElement, option: Option) {
-  return Circle.create(container, option)
+export default function CircleProgressbar(container: HTMLElement, option: Partial<Option>) {
+
+  if (container) {
+    return Circle.create(container, option)
+  } else {
+    throw 'Container does not exist';
+
+  }
 }
