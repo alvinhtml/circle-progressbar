@@ -2,6 +2,7 @@ svg {
   .svg-circle-progress {
     transform-origin: 50% 50%;
     transform: rotate(-90deg);
+    transition: stroke-dasharray ease .6s;
   }
   .svg-text {
     text-anchor: middle;

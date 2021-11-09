@@ -78,7 +78,7 @@ class Circle {
     // 创建进度条圆环
     const circle = this.createCircle(radius, (strokeWidth).toString(), stroke)
     const circumference = this.getCircumference()
-    circle.setAttribute('stroke-dasharray', `${Math.floor(value / total * circumference)} ${circumference}`)
+    circle.setAttribute('stroke-dasharray', `0 ${circumference}`)
 
     // 边框末端的形状
     if (option.strokeLinecap) {
@@ -89,13 +89,17 @@ class Circle {
     svg.appendChild(circle)
 
     if (option.title !== null || option.title !== false) {
-      const titleText = typeof title === 'function' ? title(parseInt((value / total).toFixed(2)) * 100, value) : title
+      const titleText = typeof title === 'function' ? title(parseFloat((value / total).toFixed(2)) * 100, value) : title
 
       const text = this.createText(titleText)
       svg.appendChild(text)
     }
 
     container.appendChild(svg)
+
+    setTimeout(() => {
+      circle.setAttribute('stroke-dasharray', `${Math.floor(value / total * circumference)} ${circumference}`)
+    }, 0);
   }
 
   getCircumference() {
