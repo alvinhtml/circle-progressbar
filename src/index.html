@@ -14,7 +14,7 @@
     <style>
       main {
         width: 770px;
-        margin: 0 auto;
+        margin: 50px auto;
       }
       .circle-box {
         display: flex;
@@ -39,9 +39,9 @@
         <div class="circle" id="baseCircle2"></div>
         <div class="circle" id="baseCircle3"></div>
       </div>
-      <h3>Install</h3>
+      <h3>install</h3>
 <pre><code class="language-shell">npm install circle-progressbar --save</code></pre>
-      <h3>Usage</h3>
+      <h3>usage</h3>
 
 <pre><code class="language-javascript">import CircleProgressbar from 'circle-progressbar'
 
@@ -55,20 +55,97 @@ CircleProgressbar(document.querySelector('#baseCircle2'), {
   strokeLinecap: 'round',
   stroke: '#faad42'
 })
-CircleProgressbar(document.querySelector('#baseCircle3'), {
+const baseCircle3 = CircleProgressbar(document.querySelector('#baseCircle3'), {
   value: 160,
   total: 200,
+  strokeWidth: 12,
   strokeLinecap: 'round',
   stroke: '#f82a5e'
-})</code></pre>
-      <h3>Configure title and subtitle</h3>
+})
+
+// set new value
+setInterval(() => {
+  baseCircle3.setValue(Math.random() * 200)
+}, 2000)</code></pre>
+      <h3>configure title</h3>
       <div class="circle-box">
         <div class="circle" id="titleCircle"></div>
       </div>
-      <pre><code class="language-javascript"></code></pre>
+<pre><code class="language-javascript">CircleProgressbar(document.querySelector('#titleCircle'), {
+  value: 8.4,
+  total: 16,
+  strokeLinecap: 'round',
+  title: (percentage: number, value: number) => {
+    return `${value}GB`
+  },
+  subtitle: 'memory usage'
+})
+</code></pre>
+      <h3>option</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Props</th>
+            <th>Default</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>value</td>
+            <td>0</td>
+            <td>number</td>
+          </tr>
+          <tr>
+            <td>total</td>
+            <td>100</td>
+            <td>number</td>
+          </tr>
+          <tr>
+            <td>radius</td>
+            <td>'40%'</td>
+            <td>string | number</td>
+          </tr>
+          <tr>
+            <td>title</td>
+            <td>--</td>
+            <td>string | null | (percentage: number, value: number) => string</td>
+          </tr>
+          <tr>
+            <td>strokeWidth</td>
+            <td>6</td>
+            <td>number</td>
+          </tr>
+          <tr>
+            <td>stroke</td>
+            <td>blue</td>
+            <td>color string</td>
+          </tr>
+          <tr>
+            <td>backgroundStrokeWidth</td>
+            <td>6</td>
+            <td>number</td>
+          </tr>
+          <tr>
+            <td>backgroundStroke</td>
+            <td>gray</td>
+            <td>color string</td>
+          </tr>
+          <tr>
+            <td>semiCircle</td>
+            <td>1</td>
+            <td>0 ~ 1</td>
+          </tr>
+          <tr>
+            <td>strokeLinecap</td>
+            <td>butt</td>
+            <td>butt | round | square</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <script type="text/javascript">
-      hljs.highlightAll();
+      hljs.highlightAll()
     </script>
   </main>
 </body>

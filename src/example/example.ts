@@ -21,7 +21,7 @@ CircleProgressbar(document.querySelector('#baseCircle2'), {
   strokeLinecap: 'round',
   stroke: '#faad42'
 })
-CircleProgressbar(document.querySelector('#baseCircle3'), {
+const baseCircle3 = CircleProgressbar(document.querySelector('#baseCircle3'), {
   value: 160,
   total: 200,
   strokeWidth: 12,
@@ -29,13 +29,26 @@ CircleProgressbar(document.querySelector('#baseCircle3'), {
   stroke: '#f82a5e'
 })
 
-CircleProgressbar(document.querySelector('#titleCircle'), {
-  value: 8.5,
+setInterval(() => {
+  baseCircle3.setValue(Math.random() * 200)
+}, 2000);
+
+
+const titleCircle = CircleProgressbar(document.querySelector('#titleCircle'), {
+  value: 8.4,
   total: 16,
   strokeLinecap: 'round',
-  title: (percentage: number, value: number) => `${value}GB`,
+  title: (percentage: number, value: number) => {
+    return `${value}GB`
+  },
   subtitle: 'memory usage'
 })
+
+console.log("titleCircle", titleCircle);
+
+
+
+
 
 
 //

@@ -31,9 +31,13 @@ class Circle {
 
   svgNS: string = 'http://www.w3.org/2000/svg'
 
+  circumference: number
+
   value: number
 
   total: number
+
+  text: SVGTextElement
 
   constructor(container: HTMLElement, option: Partial<Option>) {
 
@@ -92,6 +96,7 @@ class Circle {
       const titleText = typeof title === 'function' ? title(parseFloat((value / total).toFixed(2)) * 100, value) : title
 
       const text = this.createText(titleText)
+      this.text = text
       svg.appendChild(text)
     }
 
@@ -99,16 +104,23 @@ class Circle {
 
     setTimeout(() => {
       circle.setAttribute('stroke-dasharray', `${Math.floor(value / total * circumference)} ${circumference}`)
-    }, 0);
+    }, 0)
   }
 
+  // 获取圆环周长
   getCircumference() {
     const radius = parseInt(this.option.radius)
+
+    let circumference
     if (/%$/.test(this.option.radius)) {
-      return (radius / 100 * 2 * this.container.clientWidth * Math.PI)
+      circumference = (radius / 100 * 2 * this.container.clientWidth * Math.PI)
     } else {
-      return radius * 2 * Math.PI
+      circumference = radius * 2 * Math.PI
     }
+
+    this.circumference = circumference
+
+    return circumference
   }
 
   private createSvg(width: number, height: number): SVGSVGElement {
@@ -144,8 +156,13 @@ class Circle {
   }
 
 
-  update(value: number) {
+  setValue(value: number) {
     this.value = value
+    this.circle.setAttribute('stroke-dasharray', `${Math.floor(value / this.total * this.circumference)} ${this.circumference}`)
+
+    const title = this.option.title
+    const titleText = typeof title === 'function' ? title(parseFloat((value / this.total * 100).toFixed(2)), value) : title
+    this.text.textContent = titleText
   }
 
   static create(container: HTMLElement, option: Partial<Option>): Circle {
@@ -155,11 +172,9 @@ class Circle {
 }
 
 export default function CircleProgressbar(container: HTMLElement, option: Partial<Option>) {
-
   if (container) {
     return Circle.create(container, option)
   } else {
-    throw 'Container does not exist';
-
+    throw 'Container does not exist'
   }
 }
