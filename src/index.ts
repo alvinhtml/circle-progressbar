@@ -10,12 +10,14 @@ interface Option {
   backgroundStrokeWidth: number
   backgroundStroke: string
   semiCircle: number
-  strokeLinecap: string,
+  strokeLinecap: string
   title: Function,
-  titleStyle: string,
-  subtitle: Function,
-  subtitleStyle: string,
+  titleStyle: string
+  subtitle: Function
+  subtitleStyle: string
 }
+
+type IMPState = Record<string, Record<string, any>>
 
 const red = '#f82a5e'
 const green = '#05d69e'
@@ -83,14 +85,27 @@ class Circle {
 
     // 创建 SVG
     const svg = this.createSvg(container.clientWidth, container.clientHeight)
+    const circumference = this.getCircumference()
 
     // 创建背景圆环
     const circleBackground = this.createCircle(radius, (backgroundStrokeWidth).toString(), backgroundStroke)
+    
+    if (semiCircle < 1 && semiCircle > 0) {
+      circleBackground.setAttribute('stroke-dasharray', `${Math.floor(semiCircle * circumference)} ${circumference}`)
+
+      // 根据弧长和半径计算角度
+      // const angle = Math.atan2(radius, semiCircle * circumference) * 180 / Math.PI * 360
+
+      // console.log(angle);
+      
+
+    }
+
     svg.appendChild(circleBackground)
 
     // 创建进度条圆环
     const circle = this.createCircle(radius, (strokeWidth).toString(), stroke)
-    const circumference = this.getCircumference()
+    
     circle.setAttribute('stroke-dasharray', `0 ${circumference}`)
 
     // 边框末端的形状

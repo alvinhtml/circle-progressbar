@@ -48,6 +48,20 @@ const titleCircle = CircleProgressbar(document.querySelector('#titleCircle'), {
 
 console.log("titleCircle", titleCircle);
 
+const semiCircle = CircleProgressbar(document.querySelector('#semiCircle'), {
+  value: 0,
+  total: 100,
+  semiCircle: 0.8,
+  strokeLinecap: 'round',
+  title: (percentage: number, value: number) => {
+    return `${percentage}%`
+  },
+  titleStyle: 'font-weight: 200; font-size: 18px',
+  subtitle: 'memory usage',
+  subtitleStyle: 'font-weight: 200; fill: #999;'
+})
+
+console.log("semiCircle", semiCircle);
 
 
 

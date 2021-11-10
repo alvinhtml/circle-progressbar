@@ -84,6 +84,20 @@ setInterval(() => {
   subtitle: 'memory usage'
 })
 </code></pre>
+      <h3>semi circle</h3>
+      <div class="circle-box">
+        <div class="circle" id="semiCircle" style="width: 160px; height: 160px;"></div>
+      </div>
+      <pre><code class="language-javascript">CircleProgressbar(document.querySelector('#semiCircle'), {
+  value: 9.4,
+  total: 16,
+  strokeLinecap: 'round',
+  title: (percentage: number, value: number) => {
+    return `${value}GB`
+  },
+  titleStyle: 'font-weight: 200',
+  subtitle: 'memory usage'
+})</code></pre>
       <h3>option</h3>
       <table>
         <thead>
