@@ -1,5 +1,6 @@
 import './scss/style.scss'
 
+
 interface Option {
   value: number
   total: number
@@ -11,20 +12,23 @@ interface Option {
   semiCircle: number
   strokeLinecap: string,
   title: Function,
-  subtitle: Function
+  titleStyle: string,
+  subtitle: Function,
+  subtitleStyle: string,
 }
 
 const red = '#f82a5e'
 const green = '#05d69e'
 const yellow = '#faad42'
 const blue = '#38c3ff'
-const gray = '#f5f6fa'
+const gray = '#ccc'
+const lightgray = '#f5f6fa'
 
 
 class Circle {
 
   option: Option
-
+  
   container: HTMLElement
 
   circle: SVGCircleElement
@@ -37,7 +41,7 @@ class Circle {
 
   total: number
 
-  text: SVGTextElement
+  titleElement: SVGTextElement
 
   constructor(container: HTMLElement, option: Partial<Option>) {
 
@@ -48,11 +52,13 @@ class Circle {
       strokeWidth: 6,
       stroke: blue,
       backgroundStrokeWidth: option.backgroundStrokeWidth || option.strokeWidth || 6,
-      backgroundStroke: gray,
+      backgroundStroke: lightgray,
       semiCircle: 1,
       strokeLinecap: 'round',
       title: (percentage: number, value: number) => percentage + '%',
-      subtitle: '',
+      titleStyle: '',
+      subtitle: (percentage: number, value: number) => percentage + '%',
+      subtitleStyle: ''
     }, option)
 
     const {
@@ -65,7 +71,10 @@ class Circle {
       backgroundStroke,
       semiCircle,
       strokeLinecap,
-      title
+      title,
+      titleStyle,
+      subtitle,
+      subtitleStyle
     } = this.option
 
     this.container = container
@@ -92,12 +101,34 @@ class Circle {
     this.circle = circle
     svg.appendChild(circle)
 
+
     if (option.title !== null || option.title !== false) {
       const titleText = typeof title === 'function' ? title(parseFloat((value / total).toFixed(2)) * 100, value) : title
 
-      const text = this.createText(titleText)
-      this.text = text
-      svg.appendChild(text)
+      const titleElement = this.createText(titleText)
+      titleElement.setAttribute('class', 'svg-title')
+      this.titleElement = titleElement
+
+      if (titleStyle) {
+        titleElement.setAttribute('style', titleStyle)
+      }
+
+      svg.appendChild(titleElement)
+    }
+    console.log(option.subtitle);
+    
+    if (option.subtitle !== undefined && option.subtitle !== null) {
+      const subtitleText = typeof subtitle === 'function' ? subtitle(parseFloat((value / total).toFixed(2)) * 100, value) : subtitle
+
+      const subtitleElement = this.createText(subtitleText)
+      subtitleElement.setAttribute('class', 'svg-subtitle')
+      subtitleElement.setAttribute('y', '60%')
+      this.titleElement.setAttribute('y', '45%')
+
+      if (subtitleStyle) {
+        subtitleElement.setAttribute('style', subtitleStyle)
+      }
+      svg.appendChild(subtitleElement)
     }
 
     container.appendChild(svg)
@@ -149,7 +180,6 @@ class Circle {
     const textElement = <SVGTextElement>document.createElementNS(this.svgNS, 'text')
     textElement.setAttribute('x', '50%')
     textElement.setAttribute('y', '50%')
-    textElement.setAttribute('class', 'svg-text')
     textElement.textContent = text
 
     return textElement
@@ -162,7 +192,7 @@ class Circle {
 
     const title = this.option.title
     const titleText = typeof title === 'function' ? title(parseFloat((value / this.total * 100).toFixed(2)), value) : title
-    this.text.textContent = titleText
+    this.titleElement.textContent = titleText
   }
 
   static create(container: HTMLElement, option: Partial<Option>): Circle {

@@ -35,13 +35,15 @@ setInterval(() => {
 
 
 const titleCircle = CircleProgressbar(document.querySelector('#titleCircle'), {
-  value: 8.4,
+  value: 9.4,
   total: 16,
   strokeLinecap: 'round',
   title: (percentage: number, value: number) => {
     return `${value}GB`
   },
-  subtitle: 'memory usage'
+  titleStyle: 'font-weight: 200; font-size: 18px',
+  subtitle: 'memory usage',
+  subtitleStyle: 'font-weight: 200; fill: #999;'
 })
 
 console.log("titleCircle", titleCircle);
@@ -52,6 +54,7 @@ console.log("titleCircle", titleCircle);
 
 
 //
+// 
 // createCircle({
 //   value: 200,
 //   total: 400,

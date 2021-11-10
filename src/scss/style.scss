@@ -4,9 +4,14 @@ svg {
     transform: rotate(-90deg);
     transition: stroke-dasharray ease .6s;
   }
-  .svg-text {
+  .svg-title {
     text-anchor: middle;
     dominant-baseline: middle;
-    font: bold 1em 'Roboto', sans-serif;
+    font: 400 1em 'Roboto', sans-serif;
+  }
+  .svg-subtitle {
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font: 0.75em 'Roboto', sans-serif;
   }
 }

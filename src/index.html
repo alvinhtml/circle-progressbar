@@ -2,30 +2,32 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <title>Circle Progress Bar</title>
+  <title>Circle Progress Bar</title>
 
-    <link rel="stylesheet" href="http://example.alvinhtml.com/style.css">
-    <script src="http://example.alvinhtml.com/highlight.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="http://example.alvinhtml.com/style.css">
+  <script src="http://example.alvinhtml.com/highlight.min.js" charset="utf-8"></script>
 
-    <style>
-      main {
-        width: 770px;
-        margin: 50px auto;
-      }
-      .circle-box {
-        display: flex;
-        justify-content: space-around;
-        margin: 2em 0;
-      }
-      .circle {
-        width: 120px;
-        height: 120px;
-      }
-    </style>
+  <style>
+    main {
+      width: 770px;
+      margin: 50px auto;
+    }
+
+    .circle-box {
+      display: flex;
+      justify-content: space-around;
+      margin: 2em 0;
+    }
+
+    .circle {
+      width: 120px;
+      height: 120px;
+    }
+  </style>
 </head>
 
 <body>
@@ -40,10 +42,10 @@
         <div class="circle" id="baseCircle3"></div>
       </div>
       <h3>install</h3>
-<pre><code class="language-shell">npm install circle-progressbar --save</code></pre>
+      <pre><code class="language-shell">npm install circle-progressbar --save</code></pre>
       <h3>usage</h3>
 
-<pre><code class="language-javascript">import CircleProgressbar from 'circle-progressbar'
+      <pre><code class="language-javascript">import CircleProgressbar from 'circle-progressbar'
 
 CircleProgressbar(document.querySelector('#baseCircle1'), {
   value: 80,
@@ -69,15 +71,16 @@ setInterval(() => {
 }, 2000)</code></pre>
       <h3>configure title</h3>
       <div class="circle-box">
-        <div class="circle" id="titleCircle"></div>
+        <div class="circle" id="titleCircle" style="width: 160px; height: 160px;"></div>
       </div>
-<pre><code class="language-javascript">CircleProgressbar(document.querySelector('#titleCircle'), {
-  value: 8.4,
+      <pre><code class="language-javascript">CircleProgressbar(document.querySelector('#titleCircle'), {
+  value: 9.4,
   total: 16,
   strokeLinecap: 'round',
   title: (percentage: number, value: number) => {
     return `${value}GB`
   },
+  titleStyle: 'font-weight: 200',
   subtitle: 'memory usage'
 })
 </code></pre>
@@ -92,7 +95,7 @@ setInterval(() => {
         </thead>
         <tbody>
           <tr>
-            <td>value</td>
+            <th>value</th>
             <td>0</td>
             <td>number</td>
           </tr>
@@ -110,6 +113,21 @@ setInterval(() => {
             <td>title</td>
             <td>--</td>
             <td>string | null | (percentage: number, value: number) => string</td>
+          </tr>
+          <tr>
+            <td>titleStyle</td>
+            <td>''</td>
+            <td>css style</td>
+          </tr>
+          <tr>
+            <td>subtitle</td>
+            <td>--</td>
+            <td>string | null | (percentage: number, value: number) => string</td>
+          </tr>
+          <tr>
+            <td>subtitleStyle</td>
+            <td>''</td>
+            <td>css style</td>
           </tr>
           <tr>
             <td>strokeWidth</td>
