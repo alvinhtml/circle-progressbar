@@ -49,17 +49,23 @@ const titleCircle = CircleProgressbar(document.querySelector('#titleCircle'), {
 console.log("titleCircle", titleCircle);
 
 const semiCircle = CircleProgressbar(document.querySelector('#semiCircle'), {
-  value: 0,
+  value: 50,
   total: 100,
   semiCircle: 0.8,
+  strokeWidth: 10,
+  stroke: '#ffb08b',
   strokeLinecap: 'round',
   title: (percentage: number, value: number) => {
     return `${percentage}%`
   },
   titleStyle: 'font-weight: 200; font-size: 18px',
-  subtitle: 'memory usage',
-  subtitleStyle: 'font-weight: 200; fill: #999;'
+  subtitle: 'cpu usage',
+  subtitleStyle: 'font-weight: 200; fill: #999'
 })
+
+setInterval(() => {
+  semiCircle.setValue(Math.random() * 100)
+}, 2000)
 
 console.log("semiCircle", semiCircle);
 
@@ -68,7 +74,7 @@ console.log("semiCircle", semiCircle);
 
 
 //
-// 
+//
 // createCircle({
 //   value: 200,
 //   total: 400,

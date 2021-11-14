@@ -88,16 +88,24 @@ setInterval(() => {
       <div class="circle-box">
         <div class="circle" id="semiCircle" style="width: 160px; height: 160px;"></div>
       </div>
-      <pre><code class="language-javascript">CircleProgressbar(document.querySelector('#semiCircle'), {
-  value: 9.4,
-  total: 16,
+      <pre><code class="language-javascript">const semiCircle = CircleProgressbar(document.querySelector('#semiCircle'), {
+  value: 50,
+  total: 100,
+  semiCircle: 0.8,
+  strokeWidth: 10,
+  stroke: '#ffb08b',
   strokeLinecap: 'round',
   title: (percentage: number, value: number) => {
-    return `${value}GB`
+    return `${percentage}%`
   },
-  titleStyle: 'font-weight: 200',
-  subtitle: 'memory usage'
-})</code></pre>
+  titleStyle: 'font-weight: 200; font-size: 18px',
+  subtitle: 'cpu usage',
+  subtitleStyle: 'font-weight: 200; fill: #999'
+})
+
+setInterval(() => {
+  semiCircle.setValue(Math.random() * 100)
+}, 2000)</code></pre>
       <h3>option</h3>
       <table>
         <thead>
@@ -175,6 +183,12 @@ setInterval(() => {
           </tr>
         </tbody>
       </table>
+      <h3>function</h3>
+      <p><b>setValue(value)</b></p>
+      <ul>
+        <li>value - number</li>
+      </ul>
+      <p>Set a new value for circle bar</p>
     </div>
     <script type="text/javascript">
       hljs.highlightAll()

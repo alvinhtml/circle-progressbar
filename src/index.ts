@@ -30,7 +30,7 @@ const lightgray = '#f5f6fa'
 class Circle {
 
   option: Option
-  
+
   container: HTMLElement
 
   circle: SVGCircleElement
@@ -89,29 +89,13 @@ class Circle {
 
     // 创建背景圆环
     const circleBackground = this.createCircle(radius, (backgroundStrokeWidth).toString(), backgroundStroke)
-    
-    if (semiCircle < 1 && semiCircle > 0) {
-      circleBackground.setAttribute('stroke-dasharray', `${Math.floor(semiCircle * circumference)} ${circumference}`)
-
-      // 根据弧长和半径计算角度
-      // const angle = Math.atan2(radius, semiCircle * circumference) * 180 / Math.PI * 360
-
-      // console.log(angle);
-      
-
-    }
 
     svg.appendChild(circleBackground)
 
     // 创建进度条圆环
     const circle = this.createCircle(radius, (strokeWidth).toString(), stroke)
-    
-    circle.setAttribute('stroke-dasharray', `0 ${circumference}`)
 
-    // 边框末端的形状
-    if (option.strokeLinecap) {
-      circle.setAttribute('stroke-linecap', strokeLinecap)
-    }
+    circle.setAttribute('stroke-dasharray', `0 ${circumference}`)
 
     this.circle = circle
     svg.appendChild(circle)
@@ -131,7 +115,7 @@ class Circle {
       svg.appendChild(titleElement)
     }
     console.log(option.subtitle);
-    
+
     if (option.subtitle !== undefined && option.subtitle !== null) {
       const subtitleText = typeof subtitle === 'function' ? subtitle(parseFloat((value / total).toFixed(2)) * 100, value) : subtitle
 
@@ -148,8 +132,26 @@ class Circle {
 
     container.appendChild(svg)
 
+    // 边框末端的形状
+    if (option.strokeLinecap) {
+      circle.setAttribute('stroke-linecap', strokeLinecap)
+      circleBackground.setAttribute('stroke-linecap', strokeLinecap)
+    }
+
+    if (semiCircle < 1 && semiCircle > 0) {
+      const arc = Math.floor(semiCircle * circumference)
+
+      // 根据弧长和半径计算角度
+      const angle = arc / circumference * 360 / 2
+
+      circleBackground.setAttribute('stroke-dasharray', `${arc} ${circumference}`)
+      circleBackground.setAttribute('transform', `rotate(${-90 - angle})`)
+
+      circle.setAttribute('transform', `rotate(${-90 - angle})`)
+    }
+
     setTimeout(() => {
-      circle.setAttribute('stroke-dasharray', `${Math.floor(value / total * circumference)} ${circumference}`)
+      circle.setAttribute('stroke-dasharray', `${Math.floor(value / total * circumference * semiCircle)} ${circumference}`)
     }, 0)
   }
 
@@ -184,6 +186,7 @@ class Circle {
     circle.setAttribute('cx', '50%')
     circle.setAttribute('cy', '50%')
     circle.setAttribute('fill', 'none')
+    circle.setAttribute('transform', `rotate(-90)`)
     circle.setAttribute('r', radius + '')
     circle.setAttribute('stroke', stroke)
     circle.setAttribute('stroke-width', strokeWidth)
@@ -203,7 +206,7 @@ class Circle {
 
   setValue(value: number) {
     this.value = value
-    this.circle.setAttribute('stroke-dasharray', `${Math.floor(value / this.total * this.circumference)} ${this.circumference}`)
+    this.circle.setAttribute('stroke-dasharray', `${Math.floor(value / this.total * this.circumference * this.option.semiCircle)} ${this.circumference}`)
 
     const title = this.option.title
     const titleText = typeof title === 'function' ? title(parseFloat((value / this.total * 100).toFixed(2)), value) : title
